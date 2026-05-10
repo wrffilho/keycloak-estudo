@@ -1,0 +1,505 @@
+{
+  "info": {
+    "_postman_id": "1c13cb95-8f78-4bd6-aebb-0af511a8295d",
+    "name": "laboratorio-keycloak-estilo-keycloak-projeto",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "codex-local"
+  },
+  "item": [
+    {
+      "name": "01 - Publico - status 200",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{api_url}}/publico/status",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "02 - Autenticado sem token - perfil 401",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{api_url}}/usuario/perfil",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "03 - Request Token - leitor",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "client_id",
+              "value": "{{client_id}}",
+              "type": "text"
+            },
+            {
+              "key": "client_secret",
+              "value": "{{client_secret}}",
+              "type": "text"
+            },
+            {
+              "key": "username",
+              "value": "leitor",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "{{senha_padrao}}",
+              "type": "text"
+            },
+            {
+              "key": "grant_type",
+              "value": "password",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "{{keycloak_url}}/realms/{{realm}}/protocol/openid-connect/token"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var json = pm.response.json();",
+              "pm.environment.set('token_leitor', json.access_token);",
+              "pm.environment.set('token', json.access_token);"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "04 - Request Token - editor",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "client_id",
+              "value": "{{client_id}}",
+              "type": "text"
+            },
+            {
+              "key": "client_secret",
+              "value": "{{client_secret}}",
+              "type": "text"
+            },
+            {
+              "key": "username",
+              "value": "editor",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "{{senha_padrao}}",
+              "type": "text"
+            },
+            {
+              "key": "grant_type",
+              "value": "password",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "{{keycloak_url}}/realms/{{realm}}/protocol/openid-connect/token"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var json = pm.response.json();",
+              "pm.environment.set('token_editor', json.access_token);",
+              "pm.environment.set('token', json.access_token);"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "05 - Request Token - aprovador",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "client_id",
+              "value": "{{client_id}}",
+              "type": "text"
+            },
+            {
+              "key": "client_secret",
+              "value": "{{client_secret}}",
+              "type": "text"
+            },
+            {
+              "key": "username",
+              "value": "aprovador",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "{{senha_padrao}}",
+              "type": "text"
+            },
+            {
+              "key": "grant_type",
+              "value": "password",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "{{keycloak_url}}/realms/{{realm}}/protocol/openid-connect/token"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var json = pm.response.json();",
+              "pm.environment.set('token_aprovador', json.access_token);",
+              "pm.environment.set('token', json.access_token);"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "06 - Leitor ve perfil 200",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-Usuario-Teste",
+            "value": "leitor",
+            "type": "text",
+            "description": "O pre-request global usa este valor para buscar token automaticamente e depois remove este header."
+          }
+        ],
+        "url": "{{api_url}}/usuario/perfil"
+      },
+      "response": []
+    },
+    {
+      "name": "07 - Leitor lista documentos 200",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-Usuario-Teste",
+            "value": "leitor",
+            "type": "text",
+            "description": "O pre-request global usa este valor para buscar token automaticamente e depois remove este header."
+          }
+        ],
+        "url": "{{api_url}}/documentos"
+      },
+      "response": []
+    },
+    {
+      "name": "08 - Leitor tenta criar documento 403",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-Usuario-Teste",
+            "value": "leitor",
+            "type": "text",
+            "description": "O pre-request global usa este valor para buscar token automaticamente e depois remove este header."
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": "{{api_url}}/documentos",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titulo\": \"Documento do leitor\",\n  \"conteudo\": \"Deve falhar por falta de permissao.\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "09 - Editor cria documento 201",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-Usuario-Teste",
+            "value": "editor",
+            "type": "text",
+            "description": "O pre-request global usa este valor para buscar token automaticamente e depois remove este header."
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": "{{api_url}}/documentos",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titulo\": \"Documento criado pelo editor\",\n  \"conteudo\": \"Este endpoint exige documentos:criar.\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "10 - Editor tenta aprovar documento 403",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-Usuario-Teste",
+            "value": "editor",
+            "type": "text",
+            "description": "O pre-request global usa este valor para buscar token automaticamente e depois remove este header."
+          }
+        ],
+        "url": "{{api_url}}/documentos/doc-002/aprovar"
+      },
+      "response": []
+    },
+    {
+      "name": "11 - Aprovador aprova documento 200",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-Usuario-Teste",
+            "value": "aprovador",
+            "type": "text",
+            "description": "O pre-request global usa este valor para buscar token automaticamente e depois remove este header."
+          }
+        ],
+        "url": "{{api_url}}/documentos/doc-002/aprovar"
+      },
+      "response": []
+    },
+    {
+      "name": "12 - Desafio - aprovador tenta editar documento 403",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "X-Usuario-Teste",
+            "value": "aprovador",
+            "type": "text",
+            "description": "O pre-request global usa este valor para buscar token automaticamente e depois remove este header."
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": "{{api_url}}/documentos/doc-001",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titulo\": \"Tentativa do aprovador\",\n  \"conteudo\": \"O aprovador nao deveria editar.\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "var server       = pm.environment.get(\"keycloak_url\") || \"http://localhost:8080\";",
+          "var realm        = pm.environment.get(\"realm\") || \"laboratorio-keycloak\";",
+          "var grantType    = \"password\";",
+          "var clientId     = pm.environment.get(\"client_id\") || \"laboratorio-api\";",
+          "var clientSecret = pm.environment.get(\"client_secret\") || \"laboratorio-api-secret\";",
+          "var username     = pm.request.headers.get(\"X-Usuario-Teste\") || pm.environment.get(\"usuario_teste\") || \"leitor\";",
+          "var password     = pm.environment.get(\"senha_padrao\") || \"senha123\";",
+          "",
+          "pm.request.headers.remove(\"X-Usuario-Teste\");",
+          "",
+          "if (pm.request.auth && pm.request.auth.type === \"noauth\") {",
+          "    return;",
+          "}",
+          "",
+          "var tokenDaqueleUsuario = pm.environment.get(`token_${username}`);",
+          "if (tokenDaqueleUsuario) {",
+          "    pm.environment.set(\"token\", tokenDaqueleUsuario);",
+          "    pm.request.headers.upsert({ key: \"Authorization\", value: `Bearer ${tokenDaqueleUsuario}` });",
+          "    return;",
+          "}",
+          "",
+          "var url = `${server}/realms/${realm}/protocol/openid-connect/token`;",
+          "var data = `grant_type=${grantType}&client_id=${clientId}&username=${username}&password=${password}&client_secret=${clientSecret}`;",
+          "",
+          "pm.sendRequest({",
+          "    url: url,",
+          "    method: \"POST\",",
+          "    header: { \"Content-Type\": \"application/x-www-form-urlencoded\" },",
+          "    body: {",
+          "        mode: \"raw\",",
+          "        raw: data",
+          "    }",
+          "}, function(err, response) {",
+          "    if (err) {",
+          "        console.error(\"Erro ao obter token:\", err);",
+          "        return;",
+          "    }",
+          "",
+          "    var responseJson = response.json();",
+          "    if (responseJson.access_token) {",
+          "        var token = responseJson.access_token;",
+          "        pm.environment.set(`token_${username}`, token);",
+          "        pm.environment.set(\"token\", token);",
+          "        pm.request.headers.upsert({ key: \"Authorization\", value: `Bearer ${token}` });",
+          "    } else {",
+          "        console.error(\"Erro na resposta do Keycloak:\", responseJson);",
+          "    }",
+          "});"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "api_url",
+      "value": "http://localhost:8081",
+      "type": "string"
+    },
+    {
+      "key": "keycloak_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "realm",
+      "value": "laboratorio-keycloak",
+      "type": "string"
+    },
+    {
+      "key": "client_id",
+      "value": "laboratorio-api",
+      "type": "string"
+    },
+    {
+      "key": "client_secret",
+      "value": "laboratorio-api-secret",
+      "type": "string"
+    },
+    {
+      "key": "senha_padrao",
+      "value": "senha123",
+      "type": "string"
+    },
+    {
+      "key": "usuario_teste",
+      "value": "leitor",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "token_leitor",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "token_editor",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "token_aprovador",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

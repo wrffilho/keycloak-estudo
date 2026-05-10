@@ -1,0 +1,257 @@
+{
+  "realm": "laboratorio-keycloak",
+  "enabled": true,
+  "displayName": "Laboratorio Keycloak",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "users": [
+    {
+        "username": "leitor",
+        "enabled": true,
+        "email": "leitor@laboratorio.local",
+        "emailVerified": true,
+      "firstName": "Lia",
+      "lastName": "Leitora",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "senha123",
+          "temporary": false
+        }
+      ],
+      "clientRoles": {
+        "laboratorio-api": [
+          "documentos:ler"
+        ]
+      }
+    },
+    {
+        "username": "editor",
+        "enabled": true,
+        "email": "editor@laboratorio.local",
+        "emailVerified": true,
+      "firstName": "Edu",
+      "lastName": "Editor",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "senha123",
+          "temporary": false
+        }
+      ],
+      "clientRoles": {
+        "laboratorio-api": [
+          "documentos:ler",
+          "documentos:criar",
+          "documentos:editar"
+        ]
+      }
+    },
+    {
+        "username": "aprovador",
+        "enabled": true,
+        "email": "aprovador@laboratorio.local",
+        "emailVerified": true,
+      "firstName": "Ana",
+      "lastName": "Aprovadora",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "senha123",
+          "temporary": false
+        }
+      ],
+      "clientRoles": {
+        "laboratorio-api": [
+          "documentos:ler",
+          "documentos:aprovar"
+        ]
+      }
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "laboratorio-api",
+      "name": "API do Laboratorio",
+      "enabled": true,
+        "publicClient": false,
+        "clientAuthenticatorType": "client-secret",
+        "secret": "laboratorio-api-secret",
+      "protocol": "openid-connect",
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": false,
+      "redirectUris": [
+        "*"
+      ],
+      "webOrigins": [
+        "*"
+      ],
+      "protocolMappers": [
+        {
+          "name": "client roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-client-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "resource_access.${client_id}.roles",
+            "jsonType.label": "String",
+            "usermodel.clientRoleMapping.clientId": "laboratorio-api"
+          }
+        }
+      ],
+      "authorizationServicesEnabled": true,
+      "authorizationSettings": {
+        "allowRemoteResourceManagement": true,
+        "policyEnforcementMode": "ENFORCING",
+        "resources": [
+          {
+            "name": "documentos",
+            "displayName": "Documentos",
+            "uris": [
+              "/documentos",
+              "/documentos/*"
+            ],
+            "scopes": [
+              {
+                "name": "ler"
+              },
+              {
+                "name": "criar"
+              },
+              {
+                "name": "editar"
+              },
+              {
+                "name": "aprovar"
+              }
+            ]
+          }
+        ],
+        "scopes": [
+          {
+            "name": "ler"
+          },
+          {
+            "name": "criar"
+          },
+          {
+            "name": "editar"
+          },
+          {
+            "name": "aprovar"
+          }
+        ],
+        "policies": [
+          {
+            "name": "Somente leitores",
+            "type": "role",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "roles": "[{\"id\":\"documentos:ler\",\"required\":true}]"
+            }
+          },
+          {
+            "name": "Somente editores",
+            "type": "role",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "roles": "[{\"id\":\"documentos:editar\",\"required\":true}]"
+            }
+          },
+          {
+            "name": "Somente criadores",
+            "type": "role",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "roles": "[{\"id\":\"documentos:criar\",\"required\":true}]"
+            }
+          },
+          {
+            "name": "Somente aprovadores",
+            "type": "role",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "roles": "[{\"id\":\"documentos:aprovar\",\"required\":true}]"
+            }
+          },
+          {
+            "name": "Permissao para ler documentos",
+            "type": "scope",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "resources": "[\"documentos\"]",
+              "scopes": "[\"ler\"]",
+              "applyPolicies": "[\"Somente leitores\"]"
+            }
+          },
+          {
+            "name": "Permissao para criar documentos",
+            "type": "scope",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "resources": "[\"documentos\"]",
+              "scopes": "[\"criar\"]",
+              "applyPolicies": "[\"Somente criadores\"]"
+            }
+          },
+          {
+            "name": "Permissao para editar documentos",
+            "type": "scope",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "resources": "[\"documentos\"]",
+              "scopes": "[\"editar\"]",
+              "applyPolicies": "[\"Somente editores\"]"
+            }
+          },
+          {
+            "name": "Permissao para aprovar documentos",
+            "type": "scope",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "resources": "[\"documentos\"]",
+              "scopes": "[\"aprovar\"]",
+              "applyPolicies": "[\"Somente aprovadores\"]"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "roles": {
+    "client": {
+      "laboratorio-api": [
+        {
+          "name": "documentos:ler",
+          "description": "Permite ler documentos"
+        },
+        {
+          "name": "documentos:criar",
+          "description": "Permite criar documentos"
+        },
+        {
+          "name": "documentos:editar",
+          "description": "Permite editar documentos"
+        },
+        {
+          "name": "documentos:aprovar",
+          "description": "Permite aprovar documentos"
+        }
+      ]
+    }
+  }
+}

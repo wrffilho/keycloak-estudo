@@ -1,0 +1,348 @@
+{
+  "info": {
+    "name": "Laboratorio de Autorizacao com Keycloak",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "01 - Publico - status 200",
+      "request": {
+        "method": "GET",
+        "url": "{{api_url}}/publico/status"
+      }
+    },
+    {
+      "name": "02 - Autenticado sem token - perfil 401",
+      "request": {
+        "method": "GET",
+        "url": "{{api_url}}/usuario/perfil"
+      }
+    },
+    {
+      "name": "03 - Obter token leitor",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const json = pm.response.json();",
+              "pm.environment.set('token_leitor', json.access_token);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "grant_type",
+              "value": "password"
+            },
+            {
+              "key": "client_id",
+              "value": "{{client_id}}"
+            },
+            {
+              "key": "client_secret",
+              "value": "{{client_secret}}"
+            },
+            {
+              "key": "username",
+              "value": "leitor"
+            },
+            {
+              "key": "password",
+              "value": "{{senha_padrao}}"
+            }
+          ]
+        },
+        "url": "{{keycloak_url}}/realms/{{realm}}/protocol/openid-connect/token"
+      }
+    },
+    {
+      "name": "04 - Leitor ve perfil 200",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-Usuario-Teste",
+            "value": "leitor",
+            "description": "Usado pelo pre-request script para buscar token automaticamente. O script remove este header antes da chamada real."
+          }
+        ],
+        "url": "{{api_url}}/usuario/perfil"
+      }
+    },
+    {
+      "name": "05 - Leitor lista documentos 200",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-Usuario-Teste",
+            "value": "leitor",
+            "description": "Usado pelo pre-request script para buscar token automaticamente. O script remove este header antes da chamada real."
+          }
+        ],
+        "url": "{{api_url}}/documentos"
+      }
+    },
+    {
+      "name": "06 - Leitor tenta criar documento 403",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-Usuario-Teste",
+            "value": "leitor",
+            "description": "Usado pelo pre-request script para buscar token automaticamente. O script remove este header antes da chamada real."
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"titulo\":\"Documento do leitor\",\"conteudo\":\"Deve falhar por falta de permissao.\"}"
+        },
+        "url": "{{api_url}}/documentos"
+      }
+    },
+    {
+      "name": "07 - Obter token editor",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const json = pm.response.json();",
+              "pm.environment.set('token_editor', json.access_token);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "grant_type",
+              "value": "password"
+            },
+            {
+              "key": "client_id",
+              "value": "{{client_id}}"
+            },
+            {
+              "key": "client_secret",
+              "value": "{{client_secret}}"
+            },
+            {
+              "key": "username",
+              "value": "editor"
+            },
+            {
+              "key": "password",
+              "value": "{{senha_padrao}}"
+            }
+          ]
+        },
+        "url": "{{keycloak_url}}/realms/{{realm}}/protocol/openid-connect/token"
+      }
+    },
+    {
+      "name": "08 - Editor cria documento 201",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-Usuario-Teste",
+            "value": "editor",
+            "description": "Usado pelo pre-request script para buscar token automaticamente. O script remove este header antes da chamada real."
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"titulo\":\"Documento criado pelo editor\",\"conteudo\":\"Este endpoint exige documentos:criar.\"}"
+        },
+        "url": "{{api_url}}/documentos"
+      }
+    },
+    {
+      "name": "09 - Editor tenta aprovar documento 403",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-Usuario-Teste",
+            "value": "editor",
+            "description": "Usado pelo pre-request script para buscar token automaticamente. O script remove este header antes da chamada real."
+          }
+        ],
+        "url": "{{api_url}}/documentos/doc-002/aprovar"
+      }
+    },
+    {
+      "name": "10 - Obter token aprovador",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const json = pm.response.json();",
+              "pm.environment.set('token_aprovador', json.access_token);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "grant_type",
+              "value": "password"
+            },
+            {
+              "key": "client_id",
+              "value": "{{client_id}}"
+            },
+            {
+              "key": "client_secret",
+              "value": "{{client_secret}}"
+            },
+            {
+              "key": "username",
+              "value": "aprovador"
+            },
+            {
+              "key": "password",
+              "value": "{{senha_padrao}}"
+            }
+          ]
+        },
+        "url": "{{keycloak_url}}/realms/{{realm}}/protocol/openid-connect/token"
+      }
+    },
+    {
+      "name": "11 - Aprovador aprova documento 200",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-Usuario-Teste",
+            "value": "aprovador",
+            "description": "Usado pelo pre-request script para buscar token automaticamente. O script remove este header antes da chamada real."
+          }
+        ],
+        "url": "{{api_url}}/documentos/doc-002/aprovar"
+      }
+    },
+    {
+      "name": "12 - Desafio - preveja o status",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "X-Usuario-Teste",
+            "value": "aprovador",
+            "description": "Usado pelo pre-request script para buscar token automaticamente. O script remove este header antes da chamada real."
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"titulo\":\"Tentativa do aprovador\",\"conteudo\":\"O aprovador nao deveria editar.\"}"
+        },
+        "url": "{{api_url}}/documentos/doc-001"
+      }
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "const usuario = pm.request.headers.get('X-Usuario-Teste');",
+          "if (!usuario) {",
+          "  return;",
+          "}",
+          "",
+          "pm.request.headers.remove('X-Usuario-Teste');",
+          "",
+          "const nomeVariavelToken = `token_${usuario}`;",
+          "const tokenExistente = pm.environment.get(nomeVariavelToken);",
+          "",
+          "if (tokenExistente) {",
+          "  pm.request.headers.upsert({ key: 'Authorization', value: `Bearer ${tokenExistente}` });",
+          "  return;",
+          "}",
+          "",
+          "pm.sendRequest({",
+          "  url: `${pm.environment.get('keycloak_url')}/realms/${pm.environment.get('realm')}/protocol/openid-connect/token`,",
+          "  method: 'POST',",
+          "  header: {",
+          "    'Content-Type': 'application/x-www-form-urlencoded'",
+          "  },",
+          "  body: {",
+          "    mode: 'urlencoded',",
+          "    urlencoded: [",
+          "      { key: 'grant_type', value: 'password' },",
+          "      { key: 'client_id', value: pm.environment.get('client_id') },",
+          "      { key: 'client_secret', value: pm.environment.get('client_secret') },",
+          "      { key: 'username', value: usuario },",
+          "      { key: 'password', value: pm.environment.get('senha_padrao') }",
+          "    ]",
+          "  }",
+          "}, function (erro, resposta) {",
+          "  if (erro) {",
+          "    throw new Error(`Erro ao buscar token do usuario ${usuario}: ${erro}`);",
+          "  }",
+          "",
+          "  if (!resposta || resposta.code >= 400) {",
+          "    throw new Error(`Keycloak nao gerou token para ${usuario}. Status: ${resposta && resposta.code}`);",
+          "  }",
+          "",
+          "  const json = resposta.json();",
+          "  pm.environment.set(nomeVariavelToken, json.access_token);",
+          "  pm.request.headers.upsert({ key: 'Authorization', value: `Bearer ${json.access_token}` });",
+          "});"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+target/
+backend/target/
+.idea/
+.vscode/
+*.iml
+.DS_Store
+.env
+*.log
+.agents/
+keycloak-projeto.postman_collection.json

@@ -1,0 +1,15 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: keycloak-estudo
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8080/realms/laboratorio-keycloak}
+
+laboratorio:
+  keycloak:
+    client-id: laboratorio-api
