@@ -2,6 +2,8 @@
 
 Laboratorio em portugues do Brasil para aprender a diferenca entre endpoint publico, endpoint autenticado e endpoint autorizado com Keycloak.
 
+Projeto versionado para estudo com Git e GitHub via SSH.
+
 ## Requisitos
 
 - Java 21
