@@ -69,16 +69,16 @@ ou inicia a aplicacao pela IDE, acontece algo assim:
 
 ```mermaid
 flowchart TD
-    A[Spring Boot inicia] --> B[Escaneia classes do projeto]
-    B --> C[Encontra @Configuration]
-    C --> D[Encontra SegurancaConfig]
-    D --> E[Le @EnableMethodSecurity]
-    E --> F[Habilita @PreAuthorize nos metodos]
-    F --> G[Executa metodo @Bean securityFilterChain]
-    G --> H[HttpSecurity monta regras]
-    H --> I[Cria SecurityFilterChain]
-    I --> J[Registra filtros no servidor web]
-    J --> K[Tomcat fica pronto na porta 8081]
+    A["Spring Boot inicia"] --> B["Escaneia classes do projeto"]
+    B --> C["Encontra @Configuration"]
+    C --> D["Encontra SegurancaConfig"]
+    D --> E["Le @EnableMethodSecurity"]
+    E --> F["Habilita @PreAuthorize nos metodos"]
+    F --> G["Executa metodo @Bean securityFilterChain"]
+    G --> H["HttpSecurity monta regras"]
+    H --> I["Cria SecurityFilterChain"]
+    I --> J["Registra filtros no servidor web"]
+    J --> K["Tomcat fica pronto na porta 8081"]
 ```
 
 Versao em texto:
@@ -296,21 +296,21 @@ Fluxo:
 
 ```mermaid
 flowchart TD
-    A[Cliente envia request com Bearer token] --> B[Tomcat recebe request]
-    B --> C[Request entra na SecurityFilterChain]
-    C --> D[BearerTokenAuthenticationFilter procura Authorization]
-    D --> E[Extrai o token JWT]
-    E --> F[Resource Server valida JWT]
-    F --> G{JWT valido?}
-    G -- Nao --> H[401 Unauthorized]
-    G -- Sim --> I[ConversorPermissoesJwt converte claims em authorities]
-    I --> J[Spring cria JwtAuthenticationToken]
-    J --> K[Authentication entra no SecurityContext]
-    K --> L[SecurityContext fica acessivel pelo SecurityContextHolder]
-    L --> M[@PreAuthorize verifica authorities]
-    M --> N{Tem permissao?}
-    N -- Nao --> O[403 Forbidden]
-    N -- Sim --> P[Controller executa]
+    A["Cliente envia request com Bearer token"] --> B["Tomcat recebe request"]
+    B --> C["Request entra na SecurityFilterChain"]
+    C --> D["BearerTokenAuthenticationFilter procura Authorization"]
+    D --> E["Extrai o token JWT"]
+    E --> F["Resource Server valida JWT"]
+    F --> G{"JWT valido?"}
+    G -- "Nao" --> H["401 Unauthorized"]
+    G -- "Sim" --> I["ConversorPermissoesJwt converte claims em authorities"]
+    I --> J["Spring cria JwtAuthenticationToken"]
+    J --> K["Authentication entra no SecurityContext"]
+    K --> L["SecurityContext fica acessivel pelo SecurityContextHolder"]
+    L --> M["@PreAuthorize verifica authorities"]
+    M --> N{"Tem permissao?"}
+    N -- "Nao" --> O["403 Forbidden"]
+    N -- "Sim" --> P["Controller executa"]
 ```
 
 Versao em texto:
@@ -869,21 +869,21 @@ Em controller, geralmente prefira receber por parametro. Fica mais claro e mais 
 
 ```mermaid
 flowchart TD
-    A[Request chega com Authorization Bearer] --> B[SecurityFilterChain]
-    B --> C[BearerTokenAuthenticationFilter]
-    C --> D[Extrai token]
-    D --> E[Resource Server valida JWT]
-    E --> F{JWT valido?}
-    F -- Nao --> G[401 Unauthorized]
-    F -- Sim --> H[ConversorPermissoesJwt]
-    H --> I[Claims viram authorities]
-    I --> J[JwtAuthenticationToken]
-    J --> K[SecurityContext]
-    K --> L[SecurityContextHolder]
-    L --> M[@PreAuthorize consulta Authentication]
-    M --> N{Tem permissao?}
-    N -- Nao --> O[403 Forbidden]
-    N -- Sim --> P[Controller executa]
+    A["Request chega com Authorization Bearer"] --> B["SecurityFilterChain"]
+    B --> C["BearerTokenAuthenticationFilter"]
+    C --> D["Extrai token"]
+    D --> E["Resource Server valida JWT"]
+    E --> F{"JWT valido?"}
+    F -- "Nao" --> G["401 Unauthorized"]
+    F -- "Sim" --> H["ConversorPermissoesJwt"]
+    H --> I["Claims viram authorities"]
+    I --> J["JwtAuthenticationToken"]
+    J --> K["SecurityContext"]
+    K --> L["SecurityContextHolder"]
+    L --> M["@PreAuthorize consulta Authentication"]
+    M --> N{"Tem permissao?"}
+    N -- "Nao" --> O["403 Forbidden"]
+    N -- "Sim" --> P["Controller executa"]
 ```
 
 Versao em texto:

@@ -31,26 +31,26 @@ documentos:criar
 
 ```mermaid
 flowchart TD
-    A[Postman: request 09 - Editor cria documento 201] --> B{Tem token_editor salvo?}
-    B -- Nao --> C[Pre-request script pede token ao Keycloak]
-    B -- Sim --> F[Postman prepara header Authorization]
+    A["Postman: request 09 - Editor cria documento 201"] --> B{"Tem token_editor salvo?"}
+    B -- "Nao" --> C["Pre-request script pede token ao Keycloak"]
+    B -- "Sim" --> F["Postman prepara header Authorization"]
 
-    C --> D[Keycloak valida usuario editor e senha senha123]
-    D --> E[Keycloak devolve access_token com roles do client laboratorio-api]
+    C --> D["Keycloak valida usuario editor e senha senha123"]
+    D --> E["Keycloak devolve access_token com roles do client laboratorio-api"]
     E --> F
 
-    F --> G[API Spring Boot recebe POST /documentos]
-    G --> H[SegurancaConfig: rota /documentos exige autenticacao]
-    H --> I[Spring Resource Server valida assinatura e issuer do JWT]
-    I --> J[ConversorPermissoesJwt transforma claims em authorities]
-    J --> K{Existe authority documentos:criar?}
+    F --> G["API Spring Boot recebe POST /documentos"]
+    G --> H["SegurancaConfig: rota /documentos exige autenticacao"]
+    H --> I["Spring Resource Server valida assinatura e issuer do JWT"]
+    I --> J["ConversorPermissoesJwt transforma claims em authorities"]
+    J --> K{"Existe authority documentos:criar?"}
 
-    K -- Nao --> L[Spring Security bloqueia: 403 Forbidden]
-    K -- Sim --> M[DocumentosController.criar]
-    M --> N[ServicoDeDocumentosEmMemoria.criar]
-    N --> O[Documento novo nasce como RASCUNHO]
-    O --> P[DocumentoResposta.de]
-    P --> Q[API responde 201 Created]
+    K -- "Nao" --> L["Spring Security bloqueia: 403 Forbidden"]
+    K -- "Sim" --> M["DocumentosController.criar"]
+    M --> N["ServicoDeDocumentosEmMemoria.criar"]
+    N --> O["Documento novo nasce como RASCUNHO"]
+    O --> P["DocumentoResposta.de"]
+    P --> Q["API responde 201 Created"]
 ```
 
 ## Sequencia Com Participantes
@@ -623,4 +623,3 @@ E o caminho negado mais didatico e:
 ```text
 leitor -> token valido -> nao tem documentos:criar -> 403 Forbidden
 ```
-
