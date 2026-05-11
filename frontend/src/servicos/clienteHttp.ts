@@ -4,6 +4,7 @@ import { obterToken } from './servicoDeAutenticacao';
 type OpcoesRequisicao = {
   metodo?: 'GET' | 'POST' | 'PUT';
   corpo?: unknown;
+  token?: string;
 };
 
 export class ErroHttp extends Error {
@@ -16,7 +17,7 @@ export class ErroHttp extends Error {
 }
 
 export async function requisitar<T>(caminho: string, opcoes: OpcoesRequisicao = {}): Promise<T> {
-  const token = await obterToken();
+  const token = opcoes.token ?? (await obterToken());
   const resposta = await fetch(`${API_URL}${caminho}`, {
     method: opcoes.metodo ?? 'GET',
     headers: {

@@ -5,7 +5,6 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,32 +24,27 @@ public class DocumentosController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('documentos:ler')")
     public List<DocumentoResposta> listar() {
         return servico.listar();
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('documentos:ler')")
     public DocumentoResposta buscarPorId(@PathVariable String id) {
         return servico.buscarPorId(id);
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('documentos:criar')")
     public ResponseEntity<DocumentoResposta> criar(@Valid @RequestBody CriarDocumentoRequisicao requisicao) {
         DocumentoResposta resposta = servico.criar(requisicao);
         return ResponseEntity.created(URI.create("/documentos/" + resposta.id())).body(resposta);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('documentos:editar')")
     public DocumentoResposta editar(@PathVariable String id, @Valid @RequestBody EditarDocumentoRequisicao requisicao) {
         return servico.editar(id, requisicao);
     }
 
     @PostMapping("/{id}/aprovar")
-    @PreAuthorize("hasAuthority('documentos:aprovar')")
     public DocumentoResposta aprovar(@PathVariable String id) {
         return servico.aprovar(id);
     }

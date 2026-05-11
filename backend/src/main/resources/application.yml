@@ -13,6 +13,12 @@ spring:
 laboratorio:
   keycloak:
     client-id: laboratorio-api
+    policy-enforcer:
+      enabled: true
+      auth-server-url: ${KEYCLOAK_URL:http://localhost:8080}
+      realm: ${KEYCLOAK_REALM:laboratorio-keycloak}
+      resource: ${KEYCLOAK_POLICY_ENFORCER_RESOURCE:laboratorio-api}
+      secret: ${KEYCLOAK_POLICY_ENFORCER_SECRET:laboratorio-api-secret}
     menu:
       url: ${KEYCLOAK_URL:http://localhost:8080}
       realm: ${KEYCLOAK_REALM:laboratorio-keycloak}

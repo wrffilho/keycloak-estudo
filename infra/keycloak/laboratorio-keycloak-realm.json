@@ -164,6 +164,16 @@
       }
     },
     {
+      "username": "service-account-laboratorio-api",
+      "enabled": true,
+      "serviceAccountClientId": "laboratorio-api",
+      "clientRoles": {
+        "laboratorio-api": [
+          "uma_protection"
+        ]
+      }
+    },
+    {
       "username": "service-account-laboratorio-menu",
       "enabled": true,
       "serviceAccountClientId": "laboratorio-menu",
@@ -192,7 +202,7 @@
       "directAccessGrantsEnabled": true,
       "standardFlowEnabled": true,
       "implicitFlowEnabled": false,
-      "serviceAccountsEnabled": false,
+      "serviceAccountsEnabled": true,
       "redirectUris": [
         "*"
       ],
@@ -265,7 +275,7 @@
             "logic": "POSITIVE",
             "decisionStrategy": "UNANIMOUS",
             "config": {
-              "roles": "[{\"id\":\"documentos:ler\",\"required\":true}]"
+              "roles": "[{\"id\":\"role-documentos-ler\",\"required\":true}]"
             }
           },
           {
@@ -274,7 +284,7 @@
             "logic": "POSITIVE",
             "decisionStrategy": "UNANIMOUS",
             "config": {
-              "roles": "[{\"id\":\"documentos:editar\",\"required\":true}]"
+              "roles": "[{\"id\":\"role-documentos-editar\",\"required\":true}]"
             }
           },
           {
@@ -283,7 +293,7 @@
             "logic": "POSITIVE",
             "decisionStrategy": "UNANIMOUS",
             "config": {
-              "roles": "[{\"id\":\"documentos:criar\",\"required\":true}]"
+              "roles": "[{\"id\":\"role-documentos-criar\",\"required\":true}]"
             }
           },
           {
@@ -292,7 +302,7 @@
             "logic": "POSITIVE",
             "decisionStrategy": "UNANIMOUS",
             "config": {
-              "roles": "[{\"id\":\"documentos:aprovar\",\"required\":true}]"
+              "roles": "[{\"id\":\"role-documentos-aprovar\",\"required\":true}]"
             }
           },
           {
@@ -837,18 +847,26 @@
     "client": {
       "laboratorio-api": [
         {
+          "name": "uma_protection",
+          "description": "Permite que o service account da API consulte a Protection API do Keycloak"
+        },
+        {
+          "id": "role-documentos-ler",
           "name": "documentos:ler",
           "description": "Permite ler documentos"
         },
         {
+          "id": "role-documentos-criar",
           "name": "documentos:criar",
           "description": "Permite criar documentos"
         },
         {
+          "id": "role-documentos-editar",
           "name": "documentos:editar",
           "description": "Permite editar documentos"
         },
         {
+          "id": "role-documentos-aprovar",
           "name": "documentos:aprovar",
           "description": "Permite aprovar documentos"
         }

@@ -169,6 +169,8 @@ Todos usam a senha `senha123`.
 
 ## Mapa Keycloak
 
+Na branch `feature/policy-enforcer-keycloak`, este mapa tambem e usado pelo filtro `ServletPolicyEnforcerFilter`: o Spring autentica o JWT e o Keycloak decide se o usuario possui o escopo exigido para o path e metodo.
+
 | URI | Recurso | Escopo | Permissao |
 |---|---|---|---|
 | `/documentos` | `documentos` | `ler` | `documentos:ler` |
