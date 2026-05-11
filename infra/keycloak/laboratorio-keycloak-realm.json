@@ -2,6 +2,12 @@
   "realm": "laboratorio-keycloak",
   "enabled": true,
   "displayName": "Laboratorio Keycloak",
+  "loginTheme": "laboratorio",
+  "internationalizationEnabled": true,
+  "supportedLocales": [
+    "pt-BR"
+  ],
+  "defaultLocale": "pt-BR",
   "registrationAllowed": false,
   "loginWithEmailAllowed": true,
   "users": [
@@ -230,6 +236,40 @@
           }
         ]
       }
+    },
+    {
+      "clientId": "laboratorio-frontend",
+      "name": "Frontend do Laboratorio",
+      "enabled": true,
+      "publicClient": true,
+      "protocol": "openid-connect",
+      "directAccessGrantsEnabled": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": false,
+      "redirectUris": [
+        "http://localhost:5173/*"
+      ],
+      "webOrigins": [
+        "http://localhost:5173"
+      ],
+      "protocolMappers": [
+        {
+          "name": "client roles laboratorio-api",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-client-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "resource_access.laboratorio-api.roles",
+            "jsonType.label": "String",
+            "usermodel.clientRoleMapping.clientId": "laboratorio-api"
+          }
+        }
+      ]
     }
   ],
   "roles": {

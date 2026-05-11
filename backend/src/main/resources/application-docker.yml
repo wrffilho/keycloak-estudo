@@ -1,0 +1,7 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/laboratorio-keycloak
+          jwk-set-uri: http://keycloak:8080/realms/laboratorio-keycloak/protocol/openid-connect/certs

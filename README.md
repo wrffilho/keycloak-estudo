@@ -8,6 +8,7 @@ Projeto versionado para estudo com Git e GitHub via SSH.
 
 - Java 21
 - Maven 3.9+
+- Node.js 22+
 - Docker
 - Postman
 
@@ -15,12 +16,68 @@ Projeto versionado para estudo com Git e GitHub via SSH.
 
 ```text
 backend/      API Spring Boot em monolito modular
+frontend/     Painel web em Vue para testar o laboratorio
 infra/        Import do realm Keycloak
 postman/      Colecao e ambiente para teste manual
 docs/         Explicacoes em PT-BR
 ```
 
-## Subir Keycloak
+## Subir tudo com Docker
+
+Se for a primeira vez, ou se voce ja sabe que o Keycloak esta atualizado, este comando sobe o Keycloak, o backend e o frontend:
+
+```bash
+docker compose up -d --build
+```
+
+Se aparecer no login do Keycloak a mensagem `Client not found`, significa que o container do Keycloak ainda esta usando um realm antigo, sem o client `laboratorio-frontend`. Nesse caso, pare e recrie os containers para o Keycloak importar o realm atualizado:
+
+```bash
+docker compose down
+docker compose up -d --build
+```
+
+Servicos:
+
+- Keycloak: http://localhost:8080
+- Backend: http://localhost:8081
+- Frontend: http://localhost:5173
+
+Para parar os containers:
+
+```bash
+docker compose down
+```
+
+## Subir somente a API com Docker
+
+Use este comando quando o Keycloak ja estiver rodando e voce quiser subir ou reconstruir somente o backend:
+
+```bash
+docker compose up -d --build backend
+```
+
+## Subir somente o frontend com Docker
+
+Use este comando quando Keycloak e backend ja estiverem rodando:
+
+```bash
+docker compose up -d --build frontend
+```
+
+## Rodar somente o frontend em desenvolvimento
+
+Use esta opcao quando Keycloak e backend ja estiverem rodando:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+## Subir somente o Keycloak
+
+Use este comando quando quiser rodar apenas o Keycloak no Docker e iniciar o backend pela sua maquina com Maven:
 
 ```bash
 docker compose up -d keycloak
@@ -36,12 +93,24 @@ Realm importado:
 
 - `laboratorio-keycloak`
 
+Tema de login:
+
+- `laboratorio`
+- Arquivos em `infra/keycloak/themes/laboratorio/login`
+
 Client usado pelos tokens:
 
 - Client ID: `laboratorio-api`
 - Client Secret: `laboratorio-api-secret`
 
-## Rodar a API
+Client usado pelo frontend:
+
+- Client ID: `laboratorio-frontend`
+- Tipo: publico, sem secret
+
+## Rodar somente a API com Maven
+
+Use esta opcao quando voce subiu somente o Keycloak com Docker:
 
 ```bash
 mvn -pl backend spring-boot:run
