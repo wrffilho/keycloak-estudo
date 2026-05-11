@@ -28,6 +28,11 @@
       "clientRoles": {
         "laboratorio-api": [
           "documentos:ler"
+        ],
+        "laboratorio-menu": [
+          "menu:operacoes",
+          "submenu:documentos",
+          "submenu:tarefas"
         ]
       }
     },
@@ -50,6 +55,14 @@
           "documentos:ler",
           "documentos:criar",
           "documentos:editar"
+        ],
+        "laboratorio-menu": [
+          "menu:cadastros",
+          "menu:operacoes",
+          "submenu:clientes",
+          "submenu:fornecedores",
+          "submenu:documentos",
+          "submenu:tarefas"
         ]
       }
     },
@@ -71,6 +84,98 @@
         "laboratorio-api": [
           "documentos:ler",
           "documentos:aprovar"
+        ],
+        "laboratorio-menu": [
+          "menu:operacoes",
+          "menu:relatorios",
+          "submenu:documentos",
+          "submenu:aprovacoes",
+          "submenu:gerenciais"
+        ]
+      }
+    },
+    {
+      "username": "gestor",
+      "enabled": true,
+      "email": "gestor@laboratorio.local",
+      "emailVerified": true,
+      "firstName": "Gabi",
+      "lastName": "Gestora",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "senha123",
+          "temporary": false
+        }
+      ],
+      "clientRoles": {
+        "laboratorio-api": [
+          "documentos:ler",
+          "documentos:aprovar"
+        ],
+        "laboratorio-menu": [
+          "menu:cadastros",
+          "menu:operacoes",
+          "menu:relatorios",
+          "submenu:clientes",
+          "submenu:documentos",
+          "submenu:aprovacoes",
+          "submenu:gerenciais",
+          "submenu:produtividade"
+        ]
+      }
+    },
+    {
+      "username": "administrador",
+      "enabled": true,
+      "email": "administrador@laboratorio.local",
+      "emailVerified": true,
+      "firstName": "Artur",
+      "lastName": "Administrador",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "senha123",
+          "temporary": false
+        }
+      ],
+      "clientRoles": {
+        "laboratorio-api": [
+          "documentos:ler",
+          "documentos:criar",
+          "documentos:editar",
+          "documentos:aprovar"
+        ],
+        "laboratorio-menu": [
+          "menu:cadastros",
+          "menu:operacoes",
+          "menu:relatorios",
+          "menu:administracao",
+          "submenu:clientes",
+          "submenu:fornecedores",
+          "submenu:documentos",
+          "submenu:aprovacoes",
+          "submenu:tarefas",
+          "submenu:gerenciais",
+          "submenu:produtividade",
+          "submenu:usuarios",
+          "submenu:perfis"
+        ]
+      }
+    },
+    {
+      "username": "service-account-laboratorio-menu",
+      "enabled": true,
+      "serviceAccountClientId": "laboratorio-menu",
+      "clientRoles": {
+        "realm-management": [
+          "manage-authorization",
+          "manage-clients",
+          "query-clients",
+          "query-users",
+          "view-authorization",
+          "view-clients",
+          "view-users"
         ]
       }
     }
@@ -270,6 +375,462 @@
           }
         }
       ]
+    },
+    {
+      "clientId": "laboratorio-menu",
+      "name": "Catalogo de Menu do Laboratorio",
+      "enabled": true,
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "laboratorio-menu-secret",
+      "protocol": "openid-connect",
+      "directAccessGrantsEnabled": false,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": true,
+      "authorizationServicesEnabled": true,
+      "authorizationSettings": {
+        "allowRemoteResourceManagement": true,
+        "policyEnforcementMode": "PERMISSIVE",
+        "resources": [
+          {
+            "name": "menu.cadastros",
+            "displayName": "Cadastros",
+            "type": "frontend-menu",
+            "uris": [
+              "/tela/cadastros"
+            ],
+            "attributes": {
+              "id": [
+                "cadastros"
+              ],
+              "rotulo": [
+                "Cadastros"
+              ],
+              "rota": [
+                "/tela/cadastros"
+              ],
+              "tipo": [
+                "menu"
+              ],
+              "ordem": [
+                "10"
+              ],
+              "icone": [
+                "Folder"
+              ],
+              "roleNecessaria": [
+                "menu:cadastros"
+              ]
+            }
+          },
+          {
+            "name": "submenu.cadastros.clientes",
+            "displayName": "Clientes",
+            "type": "frontend-menu",
+            "uris": [
+              "/tela/cadastros-clientes"
+            ],
+            "attributes": {
+              "id": [
+                "cadastros-clientes"
+              ],
+              "rotulo": [
+                "Clientes"
+              ],
+              "rota": [
+                "/tela/cadastros-clientes"
+              ],
+              "tipo": [
+                "submenu"
+              ],
+              "pai": [
+                "cadastros"
+              ],
+              "ordem": [
+                "10"
+              ],
+              "icone": [
+                "Users"
+              ],
+              "roleNecessaria": [
+                "submenu:clientes"
+              ]
+            }
+          },
+          {
+            "name": "submenu.cadastros.fornecedores",
+            "displayName": "Fornecedores",
+            "type": "frontend-menu",
+            "uris": [
+              "/tela/cadastros-fornecedores"
+            ],
+            "attributes": {
+              "id": [
+                "cadastros-fornecedores"
+              ],
+              "rotulo": [
+                "Fornecedores"
+              ],
+              "rota": [
+                "/tela/cadastros-fornecedores"
+              ],
+              "tipo": [
+                "submenu"
+              ],
+              "pai": [
+                "cadastros"
+              ],
+              "ordem": [
+                "20"
+              ],
+              "icone": [
+                "Building2"
+              ],
+              "roleNecessaria": [
+                "submenu:fornecedores"
+              ]
+            }
+          },
+          {
+            "name": "menu.operacoes",
+            "displayName": "Operacoes",
+            "type": "frontend-menu",
+            "uris": [
+              "/tela/operacoes"
+            ],
+            "attributes": {
+              "id": [
+                "operacoes"
+              ],
+              "rotulo": [
+                "Operacoes"
+              ],
+              "rota": [
+                "/tela/operacoes"
+              ],
+              "tipo": [
+                "menu"
+              ],
+              "ordem": [
+                "20"
+              ],
+              "icone": [
+                "Briefcase"
+              ],
+              "roleNecessaria": [
+                "menu:operacoes"
+              ]
+            }
+          },
+          {
+            "name": "submenu.operacoes.documentos",
+            "displayName": "Documentos",
+            "type": "frontend-menu",
+            "uris": [
+              "/documentos"
+            ],
+            "attributes": {
+              "id": [
+                "operacoes-documentos"
+              ],
+              "rotulo": [
+                "Documentos"
+              ],
+              "rota": [
+                "/documentos"
+              ],
+              "tipo": [
+                "submenu"
+              ],
+              "pai": [
+                "operacoes"
+              ],
+              "ordem": [
+                "10"
+              ],
+              "icone": [
+                "FileText"
+              ],
+              "roleNecessaria": [
+                "submenu:documentos"
+              ]
+            }
+          },
+          {
+            "name": "submenu.operacoes.aprovacoes",
+            "displayName": "Aprovacoes",
+            "type": "frontend-menu",
+            "uris": [
+              "/tela/operacoes-aprovacoes"
+            ],
+            "attributes": {
+              "id": [
+                "operacoes-aprovacoes"
+              ],
+              "rotulo": [
+                "Aprovacoes"
+              ],
+              "rota": [
+                "/tela/operacoes-aprovacoes"
+              ],
+              "tipo": [
+                "submenu"
+              ],
+              "pai": [
+                "operacoes"
+              ],
+              "ordem": [
+                "20"
+              ],
+              "icone": [
+                "CheckCircle"
+              ],
+              "roleNecessaria": [
+                "submenu:aprovacoes"
+              ]
+            }
+          },
+          {
+            "name": "submenu.operacoes.tarefas",
+            "displayName": "Tarefas",
+            "type": "frontend-menu",
+            "uris": [
+              "/tela/operacoes-tarefas"
+            ],
+            "attributes": {
+              "id": [
+                "operacoes-tarefas"
+              ],
+              "rotulo": [
+                "Tarefas"
+              ],
+              "rota": [
+                "/tela/operacoes-tarefas"
+              ],
+              "tipo": [
+                "submenu"
+              ],
+              "pai": [
+                "operacoes"
+              ],
+              "ordem": [
+                "30"
+              ],
+              "icone": [
+                "ListChecks"
+              ],
+              "roleNecessaria": [
+                "submenu:tarefas"
+              ]
+            }
+          },
+          {
+            "name": "menu.relatorios",
+            "displayName": "Relatorios",
+            "type": "frontend-menu",
+            "uris": [
+              "/tela/relatorios"
+            ],
+            "attributes": {
+              "id": [
+                "relatorios"
+              ],
+              "rotulo": [
+                "Relatorios"
+              ],
+              "rota": [
+                "/tela/relatorios"
+              ],
+              "tipo": [
+                "menu"
+              ],
+              "ordem": [
+                "30"
+              ],
+              "icone": [
+                "BarChart3"
+              ],
+              "roleNecessaria": [
+                "menu:relatorios"
+              ]
+            }
+          },
+          {
+            "name": "submenu.relatorios.gerenciais",
+            "displayName": "Gerenciais",
+            "type": "frontend-menu",
+            "uris": [
+              "/tela/relatorios-gerenciais"
+            ],
+            "attributes": {
+              "id": [
+                "relatorios-gerenciais"
+              ],
+              "rotulo": [
+                "Gerenciais"
+              ],
+              "rota": [
+                "/tela/relatorios-gerenciais"
+              ],
+              "tipo": [
+                "submenu"
+              ],
+              "pai": [
+                "relatorios"
+              ],
+              "ordem": [
+                "10"
+              ],
+              "icone": [
+                "BarChart3"
+              ],
+              "roleNecessaria": [
+                "submenu:gerenciais"
+              ]
+            }
+          },
+          {
+            "name": "submenu.relatorios.produtividade",
+            "displayName": "Produtividade",
+            "type": "frontend-menu",
+            "uris": [
+              "/tela/relatorios-produtividade"
+            ],
+            "attributes": {
+              "id": [
+                "relatorios-produtividade"
+              ],
+              "rotulo": [
+                "Produtividade"
+              ],
+              "rota": [
+                "/tela/relatorios-produtividade"
+              ],
+              "tipo": [
+                "submenu"
+              ],
+              "pai": [
+                "relatorios"
+              ],
+              "ordem": [
+                "20"
+              ],
+              "icone": [
+                "Gauge"
+              ],
+              "roleNecessaria": [
+                "submenu:produtividade"
+              ]
+            }
+          },
+          {
+            "name": "menu.administracao",
+            "displayName": "Administracao",
+            "type": "frontend-menu",
+            "uris": [
+              "/tela/administracao"
+            ],
+            "attributes": {
+              "id": [
+                "administracao"
+              ],
+              "rotulo": [
+                "Administracao"
+              ],
+              "rota": [
+                "/tela/administracao"
+              ],
+              "tipo": [
+                "menu"
+              ],
+              "ordem": [
+                "40"
+              ],
+              "icone": [
+                "Settings"
+              ],
+              "roleNecessaria": [
+                "menu:administracao"
+              ]
+            }
+          },
+          {
+            "name": "submenu.administracao.usuarios",
+            "displayName": "Usuarios",
+            "type": "frontend-menu",
+            "uris": [
+              "/tela/administracao-usuarios"
+            ],
+            "attributes": {
+              "id": [
+                "administracao-usuarios"
+              ],
+              "rotulo": [
+                "Usuarios"
+              ],
+              "rota": [
+                "/tela/administracao-usuarios"
+              ],
+              "tipo": [
+                "submenu"
+              ],
+              "pai": [
+                "administracao"
+              ],
+              "ordem": [
+                "10"
+              ],
+              "icone": [
+                "UserCog"
+              ],
+              "roleNecessaria": [
+                "submenu:usuarios"
+              ]
+            }
+          },
+          {
+            "name": "submenu.administracao.perfis",
+            "displayName": "Perfis",
+            "type": "frontend-menu",
+            "uris": [
+              "/tela/administracao-perfis"
+            ],
+            "attributes": {
+              "id": [
+                "administracao-perfis"
+              ],
+              "rotulo": [
+                "Perfis"
+              ],
+              "rota": [
+                "/tela/administracao-perfis"
+              ],
+              "tipo": [
+                "submenu"
+              ],
+              "pai": [
+                "administracao"
+              ],
+              "ordem": [
+                "20"
+              ],
+              "icone": [
+                "Shield"
+              ],
+              "roleNecessaria": [
+                "submenu:perfis"
+              ]
+            }
+          }
+        ],
+        "scopes": [
+          {
+            "name": "visualizar"
+          }
+        ],
+        "policies": []
+      }
     }
   ],
   "roles": {
@@ -290,6 +851,60 @@
         {
           "name": "documentos:aprovar",
           "description": "Permite aprovar documentos"
+        }
+      ],
+      "laboratorio-menu": [
+        {
+          "name": "menu:cadastros",
+          "description": "Permite ver o menu Cadastros"
+        },
+        {
+          "name": "menu:operacoes",
+          "description": "Permite ver o menu Operacoes"
+        },
+        {
+          "name": "menu:relatorios",
+          "description": "Permite ver o menu Relatorios"
+        },
+        {
+          "name": "menu:administracao",
+          "description": "Permite ver o menu Administracao"
+        },
+        {
+          "name": "submenu:clientes",
+          "description": "Permite ver o submenu Clientes"
+        },
+        {
+          "name": "submenu:fornecedores",
+          "description": "Permite ver o submenu Fornecedores"
+        },
+        {
+          "name": "submenu:documentos",
+          "description": "Permite ver o submenu Documentos"
+        },
+        {
+          "name": "submenu:aprovacoes",
+          "description": "Permite ver o submenu Aprovacoes"
+        },
+        {
+          "name": "submenu:tarefas",
+          "description": "Permite ver o submenu Tarefas"
+        },
+        {
+          "name": "submenu:gerenciais",
+          "description": "Permite ver o submenu Gerenciais"
+        },
+        {
+          "name": "submenu:produtividade",
+          "description": "Permite ver o submenu Produtividade"
+        },
+        {
+          "name": "submenu:usuarios",
+          "description": "Permite ver o submenu Usuarios"
+        },
+        {
+          "name": "submenu:perfis",
+          "description": "Permite ver o submenu Perfis"
         }
       ]
     }

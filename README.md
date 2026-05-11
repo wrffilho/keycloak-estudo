@@ -108,6 +108,12 @@ Client usado pelo frontend:
 - Client ID: `laboratorio-frontend`
 - Tipo: publico, sem secret
 
+Client usado pelo catalogo de menu dinamico:
+
+- Client ID: `laboratorio-menu`
+- Tipo: confidencial
+- Client Secret: `laboratorio-menu-secret`
+
 ## Rodar somente a API com Maven
 
 Use esta opcao quando voce subiu somente o Keycloak com Docker:
@@ -131,6 +137,8 @@ Todos usam a senha `senha123`.
 | `leitor` | `documentos:ler` |
 | `editor` | `documentos:ler`, `documentos:criar`, `documentos:editar` |
 | `aprovador` | `documentos:ler`, `documentos:aprovar` |
+| `gestor` | usuario ficticio para menus corporativos |
+| `administrador` | usuario ficticio para menus corporativos e administracao |
 
 ## Endpoints
 
@@ -147,6 +155,7 @@ Todos usam a senha `senha123`.
 |---|---|---|
 | GET | `/usuario/perfil` | `401` sem token, `200` com token |
 | GET | `/usuario/permissoes` | `401` sem token, `200` com token |
+| GET | `/usuario/menu` | `401` sem token, `200` com token |
 
 ### Autorizados
 
@@ -214,5 +223,6 @@ mvn test
 - [Glossario](docs/glossario.md)
 - [Spring Resource Server vs Policy Enforcer](docs/spring-resource-server-vs-policy-enforcer.md)
 - [Fluxo completo do endpoint POST /documentos](docs/fluxo-endpoint-criar-documento.md)
+- [Menu dinamico com Keycloak](docs/menu-dinamico-keycloak.md)
 - [hasRole, hasAuthority e hasPermission](docs/hasrole-hasauthority-haspermission.md)
 - [SecurityContextHolder, SecurityContext e Authentication](docs/security-context-holder-security-context-authentication.md)

@@ -13,3 +13,9 @@ spring:
 laboratorio:
   keycloak:
     client-id: laboratorio-api
+    menu:
+      url: ${KEYCLOAK_URL:http://localhost:8080}
+      realm: ${KEYCLOAK_REALM:laboratorio-keycloak}
+      client-id: ${KEYCLOAK_MENU_CLIENT_ID:laboratorio-menu}
+      admin-client-id: ${KEYCLOAK_MENU_ADMIN_CLIENT_ID:laboratorio-menu}
+      admin-client-secret: ${KEYCLOAK_MENU_ADMIN_CLIENT_SECRET:laboratorio-menu-secret}

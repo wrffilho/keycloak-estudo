@@ -1,76 +1,129 @@
 :root {
-  --laboratorio-fundo: #f6f8fb;
-  --laboratorio-superficie: #ffffff;
-  --laboratorio-texto: #18202f;
-  --laboratorio-texto-suave: #5b6475;
-  --laboratorio-azul: #1d4ed8;
-  --laboratorio-azul-escuro: #173ea8;
-  --laboratorio-borda: #d8dee9;
-  --laboratorio-erro: #9f1239;
+  --kc-azul: #2563eb;
+  --kc-azul-escuro: #1d4ed8;
+  --kc-fundo: #f1f5f9;
+  --kc-superficie: #ffffff;
+  --kc-texto: #0f172a;
+  --kc-texto-suave: #64748b;
+  --kc-borda: #e2e8f0;
+  --kc-erro: #991b1b;
+  --kc-dark: #0f172a;
+  --kc-dark-superficie: #1e293b;
+  --kc-sombra: 0 4px 24px rgba(15, 23, 42, 0.14);
 }
 
+/* ── Sobrescreve variáveis do PatternFly ── */
 html,
 html.pf-v5-theme-dark {
-  --pf-v5-global--BackgroundColor--dark-100: var(--laboratorio-superficie);
-  --pf-v5-global--BackgroundColor--dark-200: var(--laboratorio-superficie);
-  --pf-v5-global--Color--100: var(--laboratorio-texto);
-  --pf-v5-global--Color--200: var(--laboratorio-texto-suave);
-  --pf-v5-global--primary-color--100: var(--laboratorio-azul);
-  --pf-v5-global--primary-color--200: var(--laboratorio-azul-escuro);
+  --pf-v5-global--BackgroundColor--dark-100: var(--kc-superficie);
+  --pf-v5-global--BackgroundColor--dark-200: var(--kc-superficie);
+  --pf-v5-global--Color--100: var(--kc-texto);
+  --pf-v5-global--Color--200: var(--kc-texto-suave);
+  --pf-v5-global--primary-color--100: var(--kc-azul);
+  --pf-v5-global--primary-color--200: var(--kc-azul-escuro);
 }
+
+/* ── Base ── */
 
 html {
   height: 100%;
 }
 
 body {
-  background:
-    linear-gradient(135deg, rgba(29, 78, 216, 0.11), rgba(8, 145, 178, 0.08)),
-    var(--laboratorio-fundo);
-  color: var(--laboratorio-texto);
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--kc-fundo);
+  color: var(--kc-texto);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   min-height: 100%;
   overflow: hidden;
 }
 
 .login-pf body {
-  background:
-    linear-gradient(135deg, rgba(29, 78, 216, 0.11), rgba(8, 145, 178, 0.08)),
-    var(--laboratorio-fundo);
+  background: var(--kc-fundo);
 }
+
+/* ── Layout principal ── */
 
 .pf-v5-c-login {
   min-height: 100dvh;
 }
 
 .pf-v5-c-login__container {
-  align-items: center;
+  align-items: stretch;
   display: grid;
-  gap: 40px;
-  grid-template-columns: minmax(320px, 500px) minmax(260px, 420px);
+  gap: 32px;
+  grid-template-columns: minmax(280px, 440px) minmax(320px, 460px);
   min-height: 100dvh;
-  padding: 24px 10vw;
+  padding: 32px 10vw;
   place-content: center;
 }
 
+/* ── Painel esquerdo — identidade do lab ── */
+
+.pf-v5-c-login__header,
+#kc-header {
+  align-items: flex-start;
+  background: var(--kc-dark);
+  border-radius: 12px;
+  box-shadow: var(--kc-sombra);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 36px;
+}
+
+#kc-header-wrapper {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  padding: 0;
+  text-transform: none;
+}
+
+#kc-header-wrapper::before {
+  content: "⚗";
+  display: block;
+  font-size: 2.2rem;
+  margin-bottom: 16px;
+}
+
+#kc-header-wrapper::after {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.62);
+  content: "Laboratório de autorização com Keycloak para desenvolvedores brasileiros.\A\A Usuários de estudo:\A • leitor — pode ler documentos\A • editor — pode criar e editar\A • aprovador — pode aprovar\A\A Senha de estudo: senha123";
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.75;
+  margin-top: 20px;
+  padding-top: 20px;
+  white-space: pre-wrap;
+}
+
+/* ── Painel direito — formulário ── */
+
 .pf-v5-c-login__main {
-  background: var(--laboratorio-superficie) !important;
-  border: 1px solid var(--laboratorio-borda);
-  border-radius: 8px;
-  box-shadow: 0 18px 45px rgba(24, 32, 47, 0.16);
-  color: var(--laboratorio-texto) !important;
+  background: var(--kc-superficie) !important;
+  border: 1px solid var(--kc-borda);
+  border-radius: 12px;
+  box-shadow: var(--kc-sombra);
+  color: var(--kc-texto) !important;
   min-width: 0;
-  padding: 32px 40px;
+  padding: 36px 40px;
 }
 
 .pf-v5-c-login__main-header,
 .pf-v5-c-login__main-body,
 .pf-v5-c-login__main-footer {
   background: transparent !important;
-  color: var(--laboratorio-texto) !important;
+  color: var(--kc-texto) !important;
   padding-left: 0;
   padding-right: 0;
 }
+
+/* ── Fallback para tema login-pf-page (Keycloak legacy) ── */
 
 .login-pf-page,
 .card-pf {
@@ -78,65 +131,56 @@ body {
   padding: 24px 16px;
 }
 
-#kc-header-wrapper {
-  color: var(--laboratorio-texto);
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: 0;
-  line-height: 1.2;
-  padding: 0;
-  text-transform: none;
-}
-
-#kc-header-wrapper::after {
-  color: var(--laboratorio-texto-suave);
-  content: "Entre como leitor, editor ou aprovador. A senha de estudo e senha123.";
-  display: block;
-  font-size: 14px;
-  font-weight: 500;
-  margin-top: 12px;
-}
-
 .card-pf {
-  background: var(--laboratorio-superficie) !important;
-  border: 1px solid var(--laboratorio-borda);
-  border-radius: 8px;
-  box-shadow: 0 18px 45px rgba(24, 32, 47, 0.12);
-  color: var(--laboratorio-texto) !important;
+  background: var(--kc-superficie) !important;
+  border: 1px solid var(--kc-borda);
+  border-radius: 12px;
+  box-shadow: var(--kc-sombra);
+  color: var(--kc-texto) !important;
 }
+
+/* ── Título do formulário ── */
 
 #kc-page-title {
-  color: var(--laboratorio-texto) !important;
-  font-size: 20px;
+  color: var(--kc-texto) !important;
+  font-size: 1.15rem;
   font-weight: 700;
-  letter-spacing: 0;
-  margin-bottom: 22px;
+  letter-spacing: -0.01em;
+  margin-bottom: 24px;
 }
+
+/* ── Labels ── */
 
 .pf-v5-c-form__label,
 .pf-v5-c-form__label-text,
 .pf-c-form__label,
 label {
-  color: var(--laboratorio-texto) !important;
+  color: var(--kc-texto-suave) !important;
   display: inline-block;
-  font-weight: 650;
-  margin-bottom: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+  text-transform: uppercase;
 }
 
 .pf-v5-c-form__group {
   margin-bottom: 18px;
 }
 
+/* ── Campos ── */
+
 .pf-v5-c-form-control,
 .pf-c-form-control {
   align-items: center;
-  background: #ffffff !important;
-  border: 1px solid var(--laboratorio-borda) !important;
-  border-radius: 6px;
-  color: var(--laboratorio-texto) !important;
+  background: #f8fafc !important;
+  border: 1.5px solid var(--kc-borda) !important;
+  border-radius: 7px;
+  color: var(--kc-texto) !important;
   display: flex;
-  min-height: 40px;
+  min-height: 42px;
   overflow: hidden;
+  transition: border-color 0.15s, box-shadow 0.15s;
   width: 100%;
 }
 
@@ -147,13 +191,13 @@ input[type="password"] {
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
-  color: var(--laboratorio-texto) !important;
+  color: var(--kc-texto) !important;
   flex: 1 1 auto;
-  font-size: 15px;
-  height: 40px;
+  font-size: 0.95rem;
+  height: 42px;
   min-width: 0;
   outline: 0;
-  padding: 0 12px;
+  padding: 0 14px;
   width: 100%;
 }
 
@@ -162,7 +206,7 @@ input[type="password"] {
   align-items: center;
   display: flex;
   flex: 0 0 auto;
-  height: 40px;
+  height: 42px;
 }
 
 .pf-v5-c-form-control__utilities {
@@ -172,7 +216,7 @@ input[type="password"] {
 .pf-v5-c-form-control__icon.pf-m-status,
 .pf-v5-c-form-control__icon.pf-m-status .fas,
 .pf-v5-c-form-control__icon.pf-m-status svg {
-  color: var(--laboratorio-erro) !important;
+  color: var(--kc-erro) !important;
 }
 
 .pf-v5-c-form-control.pf-m-error,
@@ -180,13 +224,14 @@ input[type="password"] {
   border-color: #f43f5e !important;
 }
 
-.pf-v5-c-form-control:focus,
-.pf-c-form-control:focus,
 .pf-v5-c-form-control:focus-within,
 .pf-c-form-control:focus-within {
-  border-color: var(--laboratorio-azul) !important;
-  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.16);
+  background: #fff !important;
+  border-color: var(--kc-azul) !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14) !important;
 }
+
+/* ── Input group (senha com toggle) ── */
 
 .pf-v5-c-input-group {
   align-items: stretch;
@@ -203,44 +248,86 @@ input[type="password"] {
   border-bottom-right-radius: 0;
   border-right: 0 !important;
   border-top-right-radius: 0;
-  height: 40px;
+  height: 42px;
 }
+
+.pf-v5-c-button.pf-m-control {
+  background: #f8fafc !important;
+  border: 1.5px solid var(--kc-borda) !important;
+  border-bottom-left-radius: 0;
+  border-left: 0 !important;
+  border-top-left-radius: 0;
+  color: var(--kc-texto-suave) !important;
+  height: 42px;
+  min-width: 46px;
+}
+
+.pf-v5-c-button.pf-m-control:hover {
+  background: #f1f5f9 !important;
+  color: var(--kc-texto) !important;
+}
+
+/* ── Botão principal ── */
 
 .pf-v5-c-button.pf-m-primary,
 .pf-c-button.pf-m-primary,
 input[type="submit"] {
-  background: var(--laboratorio-azul) !important;
-  border-radius: 6px;
+  background: var(--kc-azul) !important;
+  border-radius: 7px;
+  font-size: 0.95rem;
   font-weight: 700;
-  min-height: 42px;
+  min-height: 44px;
+  transition: background 0.15s, box-shadow 0.15s;
+  width: 100%;
 }
 
 .pf-v5-c-button.pf-m-primary:hover,
 .pf-c-button.pf-m-primary:hover,
 input[type="submit"]:hover {
-  background: var(--laboratorio-azul-escuro) !important;
+  background: var(--kc-azul-escuro) !important;
+  box-shadow: 0 3px 12px rgba(37, 99, 235, 0.3);
 }
 
-.pf-v5-c-button.pf-m-control {
-  background: #ffffff !important;
-  border: 1px solid var(--laboratorio-borda) !important;
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0;
-  color: var(--laboratorio-texto) !important;
-  height: 40px;
-  min-width: 48px;
-}
+/* ── Erros e alertas ── */
 
 .pf-v5-c-alert.pf-m-danger,
 .pf-c-alert.pf-m-danger,
 #input-error,
 .kc-feedback-text {
-  color: var(--laboratorio-erro);
+  color: var(--kc-erro);
+  font-size: 0.82rem;
+  font-weight: 600;
 }
 
+/* ── Links ── */
+
 a {
-  color: var(--laboratorio-azul);
+  color: var(--kc-azul);
+  font-weight: 500;
 }
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ── Checkbox "Lembrar acesso" ── */
+
+.pf-v5-c-check__label,
+.pf-c-check__label {
+  color: var(--kc-texto-suave) !important;
+  font-size: 0.875rem;
+  font-weight: 500 !important;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* ── Divisor e footer do form ── */
+
+.pf-v5-c-login__main-footer-links {
+  margin-top: 8px;
+}
+
+/* ── Responsivo ── */
 
 @media (max-width: 900px) {
   body {
@@ -250,18 +337,42 @@ a {
   .pf-v5-c-login__container {
     gap: 20px;
     grid-template-columns: minmax(0, 1fr);
-    padding: 18px;
+    padding: 20px 16px;
   }
 
-  .pf-v5-c-login__main {
-    padding: 28px 22px;
-  }
-
+  .pf-v5-c-login__header,
   #kc-header {
+    border-radius: 10px;
     order: -1;
+    padding: 28px 24px;
   }
 
   #kc-header-wrapper {
-    font-size: 22px;
+    font-size: 1.25rem;
+  }
+
+  #kc-header-wrapper::before {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+  }
+
+  #kc-header-wrapper::after {
+    font-size: 0.82rem;
+    margin-top: 14px;
+    padding-top: 14px;
+  }
+
+  .pf-v5-c-login__main {
+    padding: 28px 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pf-v5-c-login__container {
+    padding: 14px;
+  }
+
+  .pf-v5-c-login__main {
+    padding: 24px 18px;
   }
 }
