@@ -8,5 +8,6 @@ describe('rotas', () => {
     expect(caminhos).toContain('/laboratorio');
     expect(caminhos).toContain('/documentos');
     expect(caminhos).toContain('/documentos/:id');
+    expect(caminhos).toContain('/tela/:id');
   });
 });

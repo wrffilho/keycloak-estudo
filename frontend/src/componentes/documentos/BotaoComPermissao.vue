@@ -5,34 +5,49 @@ const props = defineProps<{
   variante?: 'primario' | 'secundario' | 'perigo';
 }>();
 
-defineEmits<{
-  acionar: [];
-}>();
+defineEmits<{ acionar: [] }>();
 </script>
 
 <template>
-  <div class="acao-com-permissao">
+  <div class="acao-permissao">
     <button
-      class="botao"
-      :class="{ secundario: props.variante === 'secundario', perigo: props.variante === 'perigo' }"
+      class="botao botao-bloco"
+      :class="{
+        secundario: props.variante === 'secundario',
+        perigo: props.variante === 'perigo',
+      }"
       type="button"
       :disabled="!permitido"
       @click="$emit('acionar')"
     >
       <slot />
     </button>
-    <small v-if="!permitido">{{ mensagemBloqueio }}</small>
+    <div v-if="!permitido" class="mensagem-bloqueio" role="status">
+      <span aria-hidden="true">🔒</span>
+      {{ mensagemBloqueio }}
+    </div>
   </div>
 </template>
 
 <style scoped>
-.acao-com-permissao {
+.acao-permissao {
   display: grid;
-  gap: 4px;
+  gap: 8px;
 }
 
-small {
-  color: #7d2525;
-  max-width: 240px;
+.botao-bloco {
+  width: 100%;
+}
+
+.mensagem-bloqueio {
+  align-items: center;
+  background: var(--vermelho-fundo);
+  border: 1px solid var(--vermelho-borda);
+  border-radius: 7px;
+  color: var(--vermelho);
+  display: flex;
+  font-size: 0.82rem;
+  gap: 6px;
+  padding: 8px 12px;
 }
 </style>

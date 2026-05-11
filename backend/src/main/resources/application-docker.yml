@@ -5,3 +5,8 @@ spring:
         jwt:
           issuer-uri: http://localhost:8080/realms/laboratorio-keycloak
           jwk-set-uri: http://keycloak:8080/realms/laboratorio-keycloak/protocol/openid-connect/certs
+
+laboratorio:
+  keycloak:
+    menu:
+      url: http://keycloak:8080

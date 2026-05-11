@@ -8,6 +8,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import br.com.wanderlei.keycloakestudo.menu.ErroCatalogoDeMenuException;
+
 @RestControllerAdvice
 public class TratadorDeErros {
 
@@ -21,5 +23,11 @@ public class TratadorDeErros {
     public ResponseEntity<Map<String, String>> requisicaoInvalida() {
         return ResponseEntity.badRequest()
                 .body(Map.of("erro", "Requisicao invalida. Informe titulo e conteudo."));
+    }
+
+    @ExceptionHandler(ErroCatalogoDeMenuException.class)
+    public ResponseEntity<Map<String, String>> erroCatalogoDeMenu(ErroCatalogoDeMenuException exception) {
+        return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                .body(Map.of("erro", exception.getMessage()));
     }
 }
