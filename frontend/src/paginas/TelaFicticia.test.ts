@@ -41,7 +41,7 @@ describe('TelaFicticia', () => {
 
     const wrapper = mount(TelaFicticia);
 
-    expect(wrapper.text()).toContain('Usuario editor acessou Clientes porque o menu foi liberado pelo Keycloak.');
+    expect(wrapper.text()).toContain('Usuário editor acessou Clientes porque o menu foi liberado pelo Keycloak.');
   });
 
   it('exibe alerta de acesso negado quando a rota nao esta no menu', async () => {
@@ -50,6 +50,6 @@ describe('TelaFicticia', () => {
     mount(TelaFicticia);
     await Promise.resolve();
 
-    expect(exibirAcessoNegado).toHaveBeenCalledWith('Acesso negado. Seu usuario nao tem acesso a esta tela.');
+    expect(exibirAcessoNegado).toHaveBeenCalledWith('Acesso negado. Seu usuário não tem acesso a esta tela.');
   });
 });

@@ -8,5 +8,7 @@ spring:
 
 laboratorio:
   keycloak:
+    policy-enforcer:
+      auth-server-url: http://keycloak:8080
     menu:
       url: http://keycloak:8080

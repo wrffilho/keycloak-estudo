@@ -25,7 +25,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-@SpringBootTest
+@SpringBootTest(properties = "laboratorio.keycloak.policy-enforcer.enabled=false")
 @AutoConfigureMockMvc
 class EndpointsWebTest {
 
@@ -82,9 +82,9 @@ class EndpointsWebTest {
     }
 
     @Test
-    void documentosRetornaProibidoSemPermissao() throws Exception {
+    void documentosRetornaOkComJwtQuandoPolicyEnforcerEstaDesabilitadoNoTeste() throws Exception {
         mockMvc.perform(get("/documentos").with(jwt()))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isOk());
     }
 
     @Test

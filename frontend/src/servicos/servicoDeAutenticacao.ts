@@ -1,5 +1,10 @@
 import Keycloak from 'keycloak-js';
-import { KEYCLOAK_CLIENT_ID, KEYCLOAK_REALM, KEYCLOAK_URL } from './configuracao';
+import {
+  KEYCLOAK_CLIENT_ID,
+  KEYCLOAK_REALM,
+  KEYCLOAK_RESOURCE_SERVER_CLIENT_ID,
+  KEYCLOAK_URL
+} from './configuracao';
 
 const keycloak = new Keycloak({
   url: KEYCLOAK_URL,
@@ -7,21 +12,20 @@ const keycloak = new Keycloak({
   clientId: KEYCLOAK_CLIENT_ID
 });
 
-let inicializado = false;
+let promessaDeInit: Promise<boolean> | null = null;
 
 export async function inicializarAutenticacao() {
-  if (inicializado) {
-    return keycloak.authenticated ?? false;
+  if (promessaDeInit !== null) {
+    return promessaDeInit;
   }
 
-  const autenticado = await keycloak.init({
+  promessaDeInit = keycloak.init({
     onLoad: 'check-sso',
     pkceMethod: 'S256',
     checkLoginIframe: false
   });
 
-  inicializado = true;
-  return autenticado;
+  return promessaDeInit;
 }
 
 export function entrar() {
@@ -49,4 +53,37 @@ export async function obterToken() {
 
   await keycloak.updateToken(30);
   return keycloak.token;
+}
+
+export async function obterRpt(permissao: string) {
+  const token = await obterToken();
+  if (!token) {
+    return undefined;
+  }
+
+  const parametros = new URLSearchParams({
+    grant_type: 'urn:ietf:params:oauth:grant-type:uma-ticket',
+    audience: KEYCLOAK_RESOURCE_SERVER_CLIENT_ID,
+    permission: permissao,
+    client_id: KEYCLOAK_CLIENT_ID
+  });
+
+  const resposta = await fetch(
+    `${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/token`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: parametros
+    }
+  );
+
+  if (!resposta.ok) {
+    return undefined;
+  }
+
+  const corpo = (await resposta.json()) as { access_token?: string };
+  return corpo.access_token;
 }
