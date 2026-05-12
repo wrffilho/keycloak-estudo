@@ -224,6 +224,7 @@ mvn test
 
 - [Glossario](docs/glossario.md)
 - [Spring Resource Server vs Policy Enforcer](docs/spring-resource-server-vs-policy-enforcer.md)
+- [Fluxo completo: login, menu, RPT e Policy Enforcer](docs/fluxo-completo-policy-enforcer-menu-rpt.md)
 - [Fluxo completo do endpoint POST /documentos](docs/fluxo-endpoint-criar-documento.md)
 - [Menu dinamico com Keycloak](docs/menu-dinamico-keycloak.md)
 - [hasRole, hasAuthority e hasPermission](docs/hasrole-hasauthority-haspermission.md)

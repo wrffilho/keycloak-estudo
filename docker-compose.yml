@@ -8,6 +8,8 @@ services:
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HOSTNAME: http://localhost:8080
+      KC_HOSTNAME_BACKCHANNEL_DYNAMIC: "true"
     ports:
       - "8080:8080"
     volumes:
@@ -21,8 +23,11 @@ services:
     container_name: backend-keycloak-estudo
     depends_on:
       - keycloak
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       SPRING_PROFILES_ACTIVE: docker
+      JAVA_TOOL_OPTIONS: "-Dsun.net.http.allowRestrictedHeaders=true -Djdk.httpclient.allowRestrictedHeaders=host"
     ports:
       - "8081:8081"
 

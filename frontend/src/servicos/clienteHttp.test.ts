@@ -48,24 +48,4 @@ describe('clienteHttp', () => {
     await expect(requisitar('/documentos')).rejects.toEqual(new ErroHttp(403, 'Sem permissao'));
   });
 
-  it('usa token informado nas opcoes quando a chamada precisa de RPT', async () => {
-    vi.mocked(fetch).mockResolvedValue({
-      ok: true,
-      status: 200,
-      json: () => Promise.resolve([])
-    } as Response);
-
-    await requisitar('/documentos', {
-      token: 'rpt-documentos-ler'
-    });
-
-    expect(fetch).toHaveBeenCalledWith(
-      'http://localhost:8081/documentos',
-      expect.objectContaining({
-        headers: {
-          Authorization: 'Bearer rpt-documentos-ler'
-        }
-      })
-    );
-  });
 });

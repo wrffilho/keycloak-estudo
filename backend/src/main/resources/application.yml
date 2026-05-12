@@ -19,6 +19,23 @@ laboratorio:
       realm: ${KEYCLOAK_REALM:laboratorio-keycloak}
       resource: ${KEYCLOAK_POLICY_ENFORCER_RESOURCE:laboratorio-api}
       secret: ${KEYCLOAK_POLICY_ENFORCER_SECRET:laboratorio-api-secret}
+      paths:
+        - resource: documentos
+          path: /documentos
+          methods:
+            - method: GET
+              scope: ler
+            - method: POST
+              scope: criar
+        - resource: documentos
+          path: /documentos/*
+          methods:
+            - method: GET
+              scope: ler
+            - method: PUT
+              scope: editar
+            - method: POST
+              scope: aprovar
     menu:
       url: ${KEYCLOAK_URL:http://localhost:8080}
       realm: ${KEYCLOAK_REALM:laboratorio-keycloak}

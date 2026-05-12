@@ -1,60 +1,45 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { listarDocumentos, criarDocumento, editarDocumento, aprovarDocumento } from './servicoDeDocumentos';
 import { requisitar } from './clienteHttp';
-import { obterRpt } from './servicoDeAutenticacao';
 
 vi.mock('./clienteHttp', () => ({
   requisitar: vi.fn()
 }));
 
-vi.mock('./servicoDeAutenticacao', () => ({
-  obterRpt: vi.fn()
-}));
-
 describe('servicoDeDocumentos', () => {
   beforeEach(() => {
-    vi.mocked(obterRpt).mockResolvedValue('rpt-documentos');
     vi.mocked(requisitar).mockResolvedValue([]);
   });
 
-  it('lista documentos usando RPT de leitura', async () => {
+  it('lista documentos usando access token comum do cliente HTTP', async () => {
     await listarDocumentos();
 
-    expect(obterRpt).toHaveBeenCalledWith('documentos#ler');
-    expect(requisitar).toHaveBeenCalledWith('/documentos', {
-      token: 'rpt-documentos'
-    });
+    expect(requisitar).toHaveBeenCalledWith('/documentos');
   });
 
-  it('cria documento usando RPT de criacao', async () => {
+  it('cria documento sem conhecer RPT no frontend', async () => {
     await criarDocumento({ titulo: 'Novo', conteudo: 'Conteudo' });
 
-    expect(obterRpt).toHaveBeenCalledWith('documentos#criar');
     expect(requisitar).toHaveBeenCalledWith('/documentos', {
       metodo: 'POST',
-      corpo: { titulo: 'Novo', conteudo: 'Conteudo' },
-      token: 'rpt-documentos'
+      corpo: { titulo: 'Novo', conteudo: 'Conteudo' }
     });
   });
 
-  it('edita documento usando RPT de edicao', async () => {
+  it('edita documento sem conhecer RPT no frontend', async () => {
     await editarDocumento('doc-001', { titulo: 'Atualizado', conteudo: 'Conteudo atualizado' });
 
-    expect(obterRpt).toHaveBeenCalledWith('documentos#editar');
     expect(requisitar).toHaveBeenCalledWith('/documentos/doc-001', {
       metodo: 'PUT',
-      corpo: { titulo: 'Atualizado', conteudo: 'Conteudo atualizado' },
-      token: 'rpt-documentos'
+      corpo: { titulo: 'Atualizado', conteudo: 'Conteudo atualizado' }
     });
   });
 
-  it('aprova documento usando RPT de aprovacao', async () => {
+  it('aprova documento sem conhecer RPT no frontend', async () => {
     await aprovarDocumento('doc-001');
 
-    expect(obterRpt).toHaveBeenCalledWith('documentos#aprovar');
     expect(requisitar).toHaveBeenCalledWith('/documentos/doc-001/aprovar', {
-      metodo: 'POST',
-      token: 'rpt-documentos'
+      metodo: 'POST'
     });
   });
 });

@@ -11,9 +11,19 @@ const carregandoSessao = ref(false);
 const autenticado = ref(false);
 const usuario = ref<string | undefined>();
 const erroSessao = ref<string | undefined>();
+let promessaDeInicializacao: Promise<void> | null = null;
 
 export function useSessao() {
   async function inicializarSessao() {
+    if (promessaDeInicializacao !== null) {
+      return promessaDeInicializacao;
+    }
+
+    promessaDeInicializacao = executarInicializacaoSessao();
+    return promessaDeInicializacao;
+  }
+
+  async function executarInicializacaoSessao() {
     carregandoSessao.value = true;
     erroSessao.value = undefined;
 

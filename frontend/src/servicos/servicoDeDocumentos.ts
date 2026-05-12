@@ -1,43 +1,30 @@
 import type { CriarDocumento, Documento, EditarDocumento } from '../tipos/documento';
 import { requisitar } from './clienteHttp';
-import { obterRpt } from './servicoDeAutenticacao';
-
-async function requisitarDocumento<T>(
-  caminho: string,
-  escopo: 'ler' | 'criar' | 'editar' | 'aprovar',
-  opcoes: Parameters<typeof requisitar<T>>[1] = {}
-) {
-  const rpt = await obterRpt(`documentos#${escopo}`);
-  return requisitar<T>(caminho, {
-    ...opcoes,
-    token: rpt
-  });
-}
 
 export function listarDocumentos() {
-  return requisitarDocumento<Documento[]>('/documentos', 'ler');
+  return requisitar<Documento[]>('/documentos');
 }
 
 export function buscarDocumentoPorId(id: string) {
-  return requisitarDocumento<Documento>(`/documentos/${id}`, 'ler');
+  return requisitar<Documento>(`/documentos/${id}`);
 }
 
 export function criarDocumento(documento: CriarDocumento) {
-  return requisitarDocumento<Documento>('/documentos', 'criar', {
+  return requisitar<Documento>('/documentos', {
     metodo: 'POST',
     corpo: documento
   });
 }
 
 export function editarDocumento(id: string, documento: EditarDocumento) {
-  return requisitarDocumento<Documento>(`/documentos/${id}`, 'editar', {
+  return requisitar<Documento>(`/documentos/${id}`, {
     metodo: 'PUT',
     corpo: documento
   });
 }
 
 export function aprovarDocumento(id: string) {
-  return requisitarDocumento<Documento>(`/documentos/${id}/aprovar`, 'aprovar', {
+  return requisitar<Documento>(`/documentos/${id}/aprovar`, {
     metodo: 'POST'
   });
 }

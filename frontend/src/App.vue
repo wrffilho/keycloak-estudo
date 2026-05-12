@@ -29,7 +29,11 @@ async function confirmarAcessoNegado() {
   </Transition>
 
   <main class="conteudo-principal">
-    <RouterView />
+    <RouterView v-slot="{ Component }">
+      <Transition name="pagina" mode="out-in">
+        <component :is="Component" />
+      </Transition>
+    </RouterView>
   </main>
 </template>
 
@@ -95,5 +99,22 @@ async function confirmarAcessoNegado() {
     flex-direction: column;
     width: calc(100vw - 32px);
   }
+}
+
+.pagina-enter-active,
+.pagina-leave-active {
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease;
+}
+
+.pagina-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.pagina-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
 }
 </style>
